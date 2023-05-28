@@ -5,9 +5,6 @@ import cloudscraper
 import requests
 from bs4 import BeautifulSoup
 
-from py_edamam.exceptions import APIError, InvalidFoodApiKey, \
-    InvalidNutrientsApiKey, InvalidRecipeApiKey, LowQualityQuery
-
 logger = logging.getLogger("PyEdamam")
 
 
