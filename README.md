@@ -1,8 +1,9 @@
 ## Nutrients Skill
 
-TODO - food wizard is being merged into this skill, meanwhile use https://github.com/OpenVoiceOS/skill-ovos-food-wizard
+nutrient data about food
 
-nutrient data
+NOTE: food wizard is being merged into this skill, if you want recipes / a GUI use https://github.com/OpenVoiceOS/skill-ovos-food-wizard
+
 
 ## description
 
