@@ -1,0 +1,19 @@
+{
+    "skill_id": "skill-nutrients",
+    "requirements": {
+        "python": [
+            "py_edamam"
+        ],
+        "system": {},
+        "skill": []
+    },
+    "url": "https://github.com/JarbasSkills/skill-nutrients.git",
+    "authorname": "JarbasSkills",
+    "skillname": "skill-nutrients",
+    "branch": "dev",
+    "credits": [
+        "JarbasAI"
+    ],
+    "foldername": "skill-nutrients",
+    "examples": []
+}
