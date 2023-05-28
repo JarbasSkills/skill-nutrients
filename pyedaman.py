@@ -123,7 +123,6 @@ class PyEdaman(Edaman):
             data.pop("ingredientLines")
             data["share_url"] = data["shareAs"]
             data.pop("shareAs")
-            print(list(data.keys()))
             yield Recipe(edamam=self, **data)
 
     def search_nutrient(self, ingredients=None):
@@ -340,7 +339,7 @@ class Recipe:
         return final_results
 
     def _get_provider_result(self, provider_source, soup):
-        print(provider_source)
+        # TODO - refacyot this, initial copy pasta from food wizard skill
         try:
             results = []
             if provider_source == 'food52':
