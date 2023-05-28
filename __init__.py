@@ -1,11 +1,25 @@
 from ovos_workshop.decorators import intent_handler
 from ovos_workshop.skills import OVOSSkill
-
+from ovos_utils.process_utils import RuntimeRequirements
+from ovos_utils import classproperty
 from .pyedaman import PyEdaman
 
 
 class NutrientsSkill(OVOSSkill):
-    def initialize(self):
+    @classproperty
+    def runtime_requirements(self):
+        return RuntimeRequirements(internet_before_load=True,
+                                   network_before_load=True,
+                                   gui_before_load=False,
+                                   requires_internet=True,
+                                   requires_network=True,
+                                   requires_gui=False,
+                                   no_internet_fallback=False,
+                                   no_network_fallback=False,
+                                   no_gui_fallback=True)
+
+    @property
+    def edaman(self):
         # free keys for the people
         if "recipes_appid" not in self.settings:
             self.settings["recipes_appid"] = 'eceecbfb'
@@ -20,7 +34,7 @@ class NutrientsSkill(OVOSSkill):
         if "food_appkey" not in self.settings:
             self.settings["nutrition_appkey"] = "80fcb49b500737827a9a23f7049653b9"
 
-        self.edamam = PyEdaman(nutrition_appid=self.settings["nutrition_appid"],
+        return PyEdaman(nutrition_appid=self.settings["nutrition_appid"],
                                nutrition_appkey=self.settings["nutrition_appkey"],
                                recipes_appid=self.settings["recipes_appid"],
                                recipes_appkey=self.settings["recipes_appkey"],
@@ -31,7 +45,7 @@ class NutrientsSkill(OVOSSkill):
     def handle_ingredients_intent(self, message):
         sentence = message.data["sentence"]
         # TODO use dialog file
-        for recipe in e.search_recipe(sentence):
+        for recipe in self.edaman.search_recipe(sentence):
             sentences = (f["text"] for f in recipe.ingredient_quantities)
             self.enclosure.deactivate_mouth_events()
             for idx, s in enumerate(sentences):
@@ -48,14 +62,14 @@ class NutrientsSkill(OVOSSkill):
     @intent_handler("calories.intent")
     def handle_calories_intent(self, message):
         sentence = message.data["sentence"]
-        for nutrient_data in e.search_nutrient(sentence):
+        for nutrient_data in self.edaman.search_nutrient(sentence):
             # TODO dialog file
             speak = f"{nutrient_data} has {nutrient_data.calories} calores"
             self.speak(speak)
             break
         else:
             query = "1 gram of " + sentence
-            for nutrient_data in e.search_nutrient(query):
+            for nutrient_data in self.edaman.search_nutrient(query):
                 # TODO dialog file
                 speak = f"{nutrient_data} has {nutrient_data.calories} calores"
                 self.speak(speak)
